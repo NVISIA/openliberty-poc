@@ -23,10 +23,12 @@
 	<properties>
 		<openliberty.http.port>8180</openliberty.http.port>
 		<openliberty.https.port>8543</openliberty.https.port>
-		<openliberty.home>/home/jgitter/bin/openliberty</openliberty.home>
+		<openliberty.home>/opt/wlp</openliberty.home>
 		<openliberty.server>chuck</openliberty.server>
 		<openliberty.Xmx>1028m</openliberty.Xmx>
 		<openliberty.appname>chuck</openliberty.appname>
+
+		<zipkin.usr.feature>https://github.com/WASdev/sample.opentracing.zipkintracer/releases/download/1.1/liberty-opentracing-zipkintracer-1.1-sample.zip</zipkin.usr.feature>
 	</properties>
 
 	<dependencyManagement>
@@ -231,6 +233,25 @@
 									<filtering>false</filtering>
 								</resource>
 							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.googlecode.maven-download-plugin</groupId>
+				<artifactId>download-maven-plugin</artifactId>
+				<version>1.4.0</version>
+				<executions>
+					<execution>
+						<id>install-tracer</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+							<url>${zipkin.usr.feature}</url>
+							<unpack>true</unpack>
+							<outputDirectory>${openliberty.home}/usr</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>

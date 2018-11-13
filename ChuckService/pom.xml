@@ -26,7 +26,7 @@
 
 		<openliberty.http.port>8080</openliberty.http.port>
 		<openliberty.https.port>8443</openliberty.https.port>
-		<openliberty.home>/home/jgitter/bin/openliberty</openliberty.home>
+		<openliberty.home>/opt/wlp</openliberty.home>
 		<openliberty.appname>chuck-service</openliberty.appname>
 		<openliberty.Xmx>1028m</openliberty.Xmx>
 
@@ -221,7 +221,7 @@
 						<configuration>
 							<url>${zipkin.usr.feature}</url>
 							<unpack>true</unpack>
-							<outputDirectory>${project.build.directory}/zipkin</outputDirectory>
+							<outputDirectory>${openliberty.home}/usr</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>

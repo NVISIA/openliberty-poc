@@ -1,9 +1,20 @@
+#FROM maven:3.5.2-jdk-8-alpine AS MavenBuild
+FROM node:8.11.2-alpine AS MavenBuild
+RUN ["apk", "update"]
+RUN ["apk", "add", "openssl"]
+RUN ["wget", "-P", ".", "https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/release/2018-09-05_2337/openliberty-18.0.0.3.zip"]
+RUN ["mkdir", "-p", "/opt/"]
+RUN ["unzip", "openliberty-18.0.0.3.zip", "-d", "/opt/"]
+COPY pom.xml /tmp/
+COPY src /tmp/src
+WORKDIR /tmp/
+RUN ["apk", "add", "openjdk8"]
+RUN ["apk", "add", "maven"]
+RUN ["npm", "install", "@angular/cli"]
+RUN ["mvn", "install"]
+
 FROM openjdk:8u181-alpine
-
-RUN ["mkdir", "/app"]
-
-WORKDIR /app
-
-ADD target/chuck-webapp.jar .
-
+RUN ["mkdir", "-p", "/opt/chuck-webapp"]
+WORKDIR /opt/chuck-webapp/
+COPY --from=MavenBuild /tmp/target/chuck-webapp.jar .
 ENTRYPOINT ["java", "-jar", "./chuck-webapp.jar"]
